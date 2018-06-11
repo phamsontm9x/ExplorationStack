@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Helvetica.ttc">
+            <string>Helvetica</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="HBannerCell" reuseIdentifier="HBannerCell" id="v6W-Oc-jBY" customClass="HBannerCell">
+            <rect key="frame" x="0.0" y="0.0" width="348" height="257"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="348" height="257"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W02-jd-p4W" customClass="HImageView">
+                        <rect key="frame" x="0.0" y="0.0" width="348" height="257"/>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fY4-At-ENN">
+                        <rect key="frame" x="144" y="103.5" width="60" height="50"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic-NoImage" translatesAutoresizingMaskIntoConstraints="NO" id="X7x-yl-O8o">
+                                <rect key="frame" x="17.5" y="10" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="pLL-zo-as7"/>
+                                    <constraint firstAttribute="width" constant="25" id="rFg-HQ-9Pg"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0tm-kL-tHy">
+                                <rect key="frame" x="0.0" y="33.5" width="60" height="16.5"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="X7x-yl-O8o" firstAttribute="centerX" secondItem="fY4-At-ENN" secondAttribute="centerX" id="Ry2-Tb-u56"/>
+                            <constraint firstAttribute="height" constant="50" id="Sbg-br-5An"/>
+                            <constraint firstAttribute="trailing" secondItem="0tm-kL-tHy" secondAttribute="trailing" id="Yzi-UA-M25"/>
+                            <constraint firstItem="0tm-kL-tHy" firstAttribute="leading" secondItem="fY4-At-ENN" secondAttribute="leading" id="kGt-MF-cXK"/>
+                            <constraint firstItem="X7x-yl-O8o" firstAttribute="top" secondItem="fY4-At-ENN" secondAttribute="top" constant="10" id="o6H-7s-Q1r"/>
+                            <constraint firstAttribute="bottom" secondItem="0tm-kL-tHy" secondAttribute="bottom" id="sPS-ff-tKS"/>
+                            <constraint firstAttribute="width" constant="60" id="sWL-ya-hB9"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="fY4-At-ENN" firstAttribute="centerX" secondItem="v6W-Oc-jBY" secondAttribute="centerX" id="9hX-sg-xVl"/>
+                <constraint firstItem="W02-jd-p4W" firstAttribute="leading" secondItem="v6W-Oc-jBY" secondAttribute="leading" id="Inl-qt-oYN"/>
+                <constraint firstItem="W02-jd-p4W" firstAttribute="top" secondItem="v6W-Oc-jBY" secondAttribute="top" id="LY6-g3-agz"/>
+                <constraint firstItem="fY4-At-ENN" firstAttribute="centerY" secondItem="v6W-Oc-jBY" secondAttribute="centerY" id="N7R-Th-Ox9"/>
+                <constraint firstAttribute="trailing" secondItem="W02-jd-p4W" secondAttribute="trailing" id="STz-rn-Yfu"/>
+                <constraint firstAttribute="bottom" secondItem="W02-jd-p4W" secondAttribute="bottom" id="tg5-mq-eR1"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="l2j-U9-1bo"/>
+            <size key="customSize" width="348" height="257"/>
+            <connections>
+                <outlet property="imgBanner" destination="W02-jd-p4W" id="E5b-mP-0ma"/>
+                <outlet property="vNoImage" destination="fY4-At-ENN" id="i4Y-iY-5ot"/>
+            </connections>
+            <point key="canvasLocation" x="-30" y="-4.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="ic-NoImage" width="64" height="64"/>
+    </resources>
+</document>

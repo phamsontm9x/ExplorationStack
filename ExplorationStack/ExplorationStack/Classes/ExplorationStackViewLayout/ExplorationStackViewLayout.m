@@ -52,15 +52,6 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self initialize];
-    }
-    
-    return self;
-}
-
 - (void)initialize {
 //    _kHeight = 0.6;
 //    _paddingWidth = 50;
@@ -68,13 +59,14 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     _centralCardYPosition = 150;
     _isFullScreen = NO;
     _itemSize = CGSizeMake(280, 380);
+    _gesturesEnabled = YES;
 }
 
 
 #pragma mark - Override
 
 - (void)prepareLayout {
-    [self setGesturesEnabled:YES];
+    [self configGesture];
     _itemSize =  CGSizeMake(_itemSize.width, _itemSize.height);
     _topStackMaximumSize = 3;
     _numberRowOfSection = [self.collectionView numberOfItemsInSection:0];
@@ -172,41 +164,8 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 #pragma mark - Handling the Swipe and PanGesture
 
 - (void)setGesturesEnabled:(BOOL)gesturesEnabled {
-    _gesturesEnabled = gesturesEnabled;
     
-    if (gesturesEnabled) {
-        if (!_swipeRecognizerUp) {
-            _swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
-            _swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
-            _swipeRecognizerUp.delegate = self;
-            [self.collectionView addGestureRecognizer:_swipeRecognizerUp];
-        }
-        
-        if (!_swipeRecognizerDown) {
-            _swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
-            _swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
-            _swipeRecognizerDown.delegate = self;
-            [self.collectionView addGestureRecognizer:_swipeRecognizerDown];
-        }
 
-        if (!_panGestureRecognizer) {
-            _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer:)];
-            _panGestureRecognizer.delegate = self;
-            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerUp];
-            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerDown];
-            [self.collectionView addGestureRecognizer:_panGestureRecognizer];
-        }
-        
-    } else {
-       
-        [self.collectionView removeGestureRecognizer:_panGestureRecognizer];
-        [self.collectionView removeGestureRecognizer:_swipeRecognizerUp];
-        [self.collectionView removeGestureRecognizer:_swipeRecognizerDown];
-        
-        _panGestureRecognizer = nil;
-        _swipeRecognizerUp = nil;
-        _swipeRecognizerDown = nil;
-    }
 }
 
 - (void)setIndexItem:(NSInteger)indexItem {
@@ -434,6 +393,42 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     
     [CATransaction commit];
     [UIView commitAnimations];
+}
+
+- (void)configGesture {
+    if (_gesturesEnabled) {
+        if (!_swipeRecognizerUp) {
+            _swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
+            _swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
+            _swipeRecognizerUp.delegate = self;
+            [self.collectionView addGestureRecognizer:_swipeRecognizerUp];
+        }
+        
+        if (!_swipeRecognizerDown) {
+            _swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
+            _swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
+            _swipeRecognizerDown.delegate = self;
+            [self.collectionView addGestureRecognizer:_swipeRecognizerDown];
+        }
+        
+        if (!_panGestureRecognizer) {
+            _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer:)];
+            _panGestureRecognizer.delegate = self;
+            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerUp];
+            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerDown];
+            [self.collectionView addGestureRecognizer:_panGestureRecognizer];
+        }
+        
+    } else {
+        
+        [self.collectionView removeGestureRecognizer:_panGestureRecognizer];
+        [self.collectionView removeGestureRecognizer:_swipeRecognizerUp];
+        [self.collectionView removeGestureRecognizer:_swipeRecognizerDown];
+        
+        _panGestureRecognizer = nil;
+        _swipeRecognizerUp = nil;
+        _swipeRecognizerDown = nil;
+    }
 }
 
 @end

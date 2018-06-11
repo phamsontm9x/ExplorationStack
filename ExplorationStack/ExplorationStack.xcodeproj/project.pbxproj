@@ -17,6 +17,20 @@
 		1355DBAE20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBAC20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m */; };
 		1355DBB420CA4D3700ACB6B9 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBB320CA4D3700ACB6B9 /* CollectionViewController.m */; };
 		1355DBB820CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBB720CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m */; };
+		137ECD4020CE70090095AF96 /* DetailDishVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD3E20CE70090095AF96 /* DetailDishVC.m */; };
+		137ECD4420CE702A0095AF96 /* DetailDishCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD4320CE702A0095AF96 /* DetailDishCell.m */; };
+		137ECD7120CE712D0095AF96 /* UIView+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD5A20CE712D0095AF96 /* UIView+Util.m */; };
+		137ECD7320CE712D0095AF96 /* HBanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 137ECD6020CE712D0095AF96 /* HBanner.xib */; };
+		137ECD7420CE712D0095AF96 /* HBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD6120CE712D0095AF96 /* HBanner.m */; };
+		137ECD7520CE712D0095AF96 /* HBannerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD6420CE712D0095AF96 /* HBannerCell.m */; };
+		137ECD7620CE712D0095AF96 /* HBannerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 137ECD6620CE712D0095AF96 /* HBannerCell.xib */; };
+		137ECD9520CE73CD0095AF96 /* CommentDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD7D20CE73CD0095AF96 /* CommentDto.m */; };
+		137ECD9820CE73CD0095AF96 /* BaseDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD8720CE73CD0095AF96 /* BaseDto.m */; };
+		137ECD9A20CE73CD0095AF96 /* MaterialsDetailDishDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD8E20CE73CD0095AF96 /* MaterialsDetailDishDto.m */; };
+		137ECD9B20CE73CD0095AF96 /* DetailDishDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD8F20CE73CD0095AF96 /* DetailDishDto.m */; };
+		137ECD9C20CE73CD0095AF96 /* ContentDetailDishDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD9220CE73CD0095AF96 /* ContentDetailDishDto.m */; };
+		137ECDA020CE75540095AF96 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECD9E20CE75540095AF96 /* BaseCell.m */; };
+		137ECDA620CE84E50095AF96 /* MagaInfoCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECDA520CE84E50095AF96 /* MagaInfoCollectionView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +71,32 @@
 		1355DBB320CA4D3700ACB6B9 /* CollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		1355DBB620CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExplorationStackCollectionViewCell.h; sourceTree = "<group>"; };
 		1355DBB720CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExplorationStackCollectionViewCell.m; sourceTree = "<group>"; };
+		137ECD3E20CE70090095AF96 /* DetailDishVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailDishVC.m; sourceTree = "<group>"; };
+		137ECD3F20CE70090095AF96 /* DetailDishVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailDishVC.h; sourceTree = "<group>"; };
+		137ECD4220CE702A0095AF96 /* DetailDishCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailDishCell.h; sourceTree = "<group>"; };
+		137ECD4320CE702A0095AF96 /* DetailDishCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailDishCell.m; sourceTree = "<group>"; };
+		137ECD5A20CE712D0095AF96 /* UIView+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Util.m"; sourceTree = "<group>"; };
+		137ECD5B20CE712D0095AF96 /* UIView+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Util.h"; sourceTree = "<group>"; };
+		137ECD6020CE712D0095AF96 /* HBanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HBanner.xib; sourceTree = "<group>"; };
+		137ECD6120CE712D0095AF96 /* HBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBanner.m; sourceTree = "<group>"; };
+		137ECD6220CE712D0095AF96 /* HBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBanner.h; sourceTree = "<group>"; };
+		137ECD6420CE712D0095AF96 /* HBannerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBannerCell.m; sourceTree = "<group>"; };
+		137ECD6520CE712D0095AF96 /* HBannerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBannerCell.h; sourceTree = "<group>"; };
+		137ECD6620CE712D0095AF96 /* HBannerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HBannerCell.xib; sourceTree = "<group>"; };
+		137ECD7D20CE73CD0095AF96 /* CommentDto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentDto.m; sourceTree = "<group>"; };
+		137ECD7E20CE73CD0095AF96 /* CommentDto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentDto.h; sourceTree = "<group>"; };
+		137ECD8620CE73CD0095AF96 /* BaseDto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDto.h; sourceTree = "<group>"; };
+		137ECD8720CE73CD0095AF96 /* BaseDto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseDto.m; sourceTree = "<group>"; };
+		137ECD8D20CE73CD0095AF96 /* MaterialsDetailDishDto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialsDetailDishDto.h; sourceTree = "<group>"; };
+		137ECD8E20CE73CD0095AF96 /* MaterialsDetailDishDto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaterialsDetailDishDto.m; sourceTree = "<group>"; };
+		137ECD8F20CE73CD0095AF96 /* DetailDishDto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailDishDto.m; sourceTree = "<group>"; };
+		137ECD9120CE73CD0095AF96 /* ContentDetailDishDto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentDetailDishDto.h; sourceTree = "<group>"; };
+		137ECD9220CE73CD0095AF96 /* ContentDetailDishDto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentDetailDishDto.m; sourceTree = "<group>"; };
+		137ECD9320CE73CD0095AF96 /* DetailDishDto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailDishDto.h; sourceTree = "<group>"; };
+		137ECD9E20CE75540095AF96 /* BaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCell.m; sourceTree = "<group>"; };
+		137ECD9F20CE75540095AF96 /* BaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseCell.h; sourceTree = "<group>"; };
+		137ECDA420CE84E50095AF96 /* MagaInfoCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MagaInfoCollectionView.h; sourceTree = "<group>"; };
+		137ECDA520CE84E50095AF96 /* MagaInfoCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MagaInfoCollectionView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,21 +177,25 @@
 		1355DBA220CA248D00ACB6B9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				137ECD7820CE73CD0095AF96 /* Models */,
+				137ECD4520CE712D0095AF96 /* Views */,
+				137ECD3920CE6FCB0095AF96 /* DetailController */,
 				1355DBA720CA25E600ACB6B9 /* ExplorationStackViewLayout */,
 				1355DBA420CA249C00ACB6B9 /* AppDelegate */,
-				1355DBA320CA249400ACB6B9 /* Controller */,
+				1355DBA320CA249400ACB6B9 /* CollectionViewController */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		1355DBA320CA249400ACB6B9 /* Controller */ = {
+		1355DBA320CA249400ACB6B9 /* CollectionViewController */ = {
 			isa = PBXGroup;
 			children = (
+				137ECDA320CE84C40095AF96 /* MagaInfoCollectionView */,
 				1355DBB520CA4D4700ACB6B9 /* ExplorationStackCollectionViewCell */,
 				1355DBB220CA4D3700ACB6B9 /* CollectionViewController.h */,
 				1355DBB320CA4D3700ACB6B9 /* CollectionViewController.m */,
 			);
-			path = Controller;
+			path = CollectionViewController;
 			sourceTree = "<group>";
 		};
 		1355DBA420CA249C00ACB6B9 /* AppDelegate */ = {
@@ -196,6 +240,140 @@
 				1355DBB720CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m */,
 			);
 			path = ExplorationStackCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		137ECD3920CE6FCB0095AF96 /* DetailController */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD4120CE702A0095AF96 /* DetailDishCell */,
+				137ECD3F20CE70090095AF96 /* DetailDishVC.h */,
+				137ECD3E20CE70090095AF96 /* DetailDishVC.m */,
+			);
+			path = DetailController;
+			sourceTree = "<group>";
+		};
+		137ECD4120CE702A0095AF96 /* DetailDishCell */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD9D20CE75540095AF96 /* BaseCell */,
+				137ECD4220CE702A0095AF96 /* DetailDishCell.h */,
+				137ECD4320CE702A0095AF96 /* DetailDishCell.m */,
+			);
+			path = DetailDishCell;
+			sourceTree = "<group>";
+		};
+		137ECD4520CE712D0095AF96 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD5920CE712D0095AF96 /* View */,
+				137ECD5F20CE712D0095AF96 /* HBanner */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		137ECD5920CE712D0095AF96 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD5A20CE712D0095AF96 /* UIView+Util.m */,
+				137ECD5B20CE712D0095AF96 /* UIView+Util.h */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		137ECD5F20CE712D0095AF96 /* HBanner */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD6020CE712D0095AF96 /* HBanner.xib */,
+				137ECD6120CE712D0095AF96 /* HBanner.m */,
+				137ECD6220CE712D0095AF96 /* HBanner.h */,
+				137ECD6320CE712D0095AF96 /* HBannerCell */,
+			);
+			path = HBanner;
+			sourceTree = "<group>";
+		};
+		137ECD6320CE712D0095AF96 /* HBannerCell */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD6420CE712D0095AF96 /* HBannerCell.m */,
+				137ECD6520CE712D0095AF96 /* HBannerCell.h */,
+				137ECD6620CE712D0095AF96 /* HBannerCell.xib */,
+			);
+			path = HBannerCell;
+			sourceTree = "<group>";
+		};
+		137ECD7820CE73CD0095AF96 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD7C20CE73CD0095AF96 /* CommentDto */,
+				137ECD8520CE73CD0095AF96 /* BaseDto */,
+				137ECD8B20CE73CD0095AF96 /* DetailDishDto */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		137ECD7C20CE73CD0095AF96 /* CommentDto */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD7D20CE73CD0095AF96 /* CommentDto.m */,
+				137ECD7E20CE73CD0095AF96 /* CommentDto.h */,
+			);
+			path = CommentDto;
+			sourceTree = "<group>";
+		};
+		137ECD8520CE73CD0095AF96 /* BaseDto */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD8620CE73CD0095AF96 /* BaseDto.h */,
+				137ECD8720CE73CD0095AF96 /* BaseDto.m */,
+			);
+			path = BaseDto;
+			sourceTree = "<group>";
+		};
+		137ECD8B20CE73CD0095AF96 /* DetailDishDto */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD8C20CE73CD0095AF96 /* MaterialsDetailDishDto */,
+				137ECD8F20CE73CD0095AF96 /* DetailDishDto.m */,
+				137ECD9020CE73CD0095AF96 /* ContentDetailDishDto */,
+				137ECD9320CE73CD0095AF96 /* DetailDishDto.h */,
+			);
+			path = DetailDishDto;
+			sourceTree = "<group>";
+		};
+		137ECD8C20CE73CD0095AF96 /* MaterialsDetailDishDto */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD8D20CE73CD0095AF96 /* MaterialsDetailDishDto.h */,
+				137ECD8E20CE73CD0095AF96 /* MaterialsDetailDishDto.m */,
+			);
+			path = MaterialsDetailDishDto;
+			sourceTree = "<group>";
+		};
+		137ECD9020CE73CD0095AF96 /* ContentDetailDishDto */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD9120CE73CD0095AF96 /* ContentDetailDishDto.h */,
+				137ECD9220CE73CD0095AF96 /* ContentDetailDishDto.m */,
+			);
+			path = ContentDetailDishDto;
+			sourceTree = "<group>";
+		};
+		137ECD9D20CE75540095AF96 /* BaseCell */ = {
+			isa = PBXGroup;
+			children = (
+				137ECD9E20CE75540095AF96 /* BaseCell.m */,
+				137ECD9F20CE75540095AF96 /* BaseCell.h */,
+			);
+			path = BaseCell;
+			sourceTree = "<group>";
+		};
+		137ECDA320CE84C40095AF96 /* MagaInfoCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				137ECDA420CE84E50095AF96 /* MagaInfoCollectionView.h */,
+				137ECDA520CE84E50095AF96 /* MagaInfoCollectionView.m */,
+			);
+			path = MagaInfoCollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,8 +479,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				137ECD7620CE712D0095AF96 /* HBannerCell.xib in Resources */,
 				1355DB7D20CA246E00ACB6B9 /* LaunchScreen.storyboard in Resources */,
 				1355DB7A20CA246E00ACB6B9 /* Assets.xcassets in Resources */,
+				137ECD7320CE712D0095AF96 /* HBanner.xib in Resources */,
 				1355DB7820CA246D00ACB6B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,11 +508,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				137ECDA020CE75540095AF96 /* BaseCell.m in Sources */,
+				137ECD7120CE712D0095AF96 /* UIView+Util.m in Sources */,
 				1355DB8020CA246E00ACB6B9 /* main.m in Sources */,
+				137ECD9A20CE73CD0095AF96 /* MaterialsDetailDishDto.m in Sources */,
 				1355DB7220CA246D00ACB6B9 /* AppDelegate.m in Sources */,
+				137ECD7420CE712D0095AF96 /* HBanner.m in Sources */,
+				137ECDA620CE84E50095AF96 /* MagaInfoCollectionView.m in Sources */,
+				137ECD4420CE702A0095AF96 /* DetailDishCell.m in Sources */,
+				137ECD9B20CE73CD0095AF96 /* DetailDishDto.m in Sources */,
 				1355DBB820CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m in Sources */,
+				137ECD9820CE73CD0095AF96 /* BaseDto.m in Sources */,
+				137ECD7520CE712D0095AF96 /* HBannerCell.m in Sources */,
+				137ECD9C20CE73CD0095AF96 /* ContentDetailDishDto.m in Sources */,
 				1355DBB420CA4D3700ACB6B9 /* CollectionViewController.m in Sources */,
+				137ECD9520CE73CD0095AF96 /* CommentDto.m in Sources */,
 				1355DBAE20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m in Sources */,
+				137ECD4020CE70090095AF96 /* DetailDishVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

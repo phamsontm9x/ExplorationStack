@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HBanner">
+            <rect key="frame" x="0.0" y="0.0" width="370" height="165"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LCX-KE-3d6">
+                    <rect key="frame" x="0.0" y="0.0" width="370" height="165"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Alo-DB-RHF">
+                            <rect key="frame" x="0.0" y="0.0" width="370" height="165"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cUJ-Cr-TaH">
+                                <size key="itemSize" width="348" height="257"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                            <cells/>
+                            <connections>
+                                <outlet property="dataSource" destination="iN0-l3-epB" id="Qmy-s2-bla"/>
+                                <outlet property="delegate" destination="iN0-l3-epB" id="3zU-M2-DKc"/>
+                            </connections>
+                        </collectionView>
+                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="7aN-k4-obA">
+                            <rect key="frame" x="10" y="118" width="350" height="37"/>
+                            <color key="pageIndicatorTintColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="currentPageIndicatorTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </pageControl>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Alo-DB-RHF" firstAttribute="leading" secondItem="LCX-KE-3d6" secondAttribute="leading" id="5i2-Pj-Q3l"/>
+                        <constraint firstAttribute="trailing" secondItem="Alo-DB-RHF" secondAttribute="trailing" id="H07-Oz-UNp"/>
+                        <constraint firstAttribute="bottom" secondItem="Alo-DB-RHF" secondAttribute="bottom" id="Zdx-cu-icA"/>
+                        <constraint firstAttribute="trailing" secondItem="7aN-k4-obA" secondAttribute="trailing" constant="10" id="eeA-m6-gk5"/>
+                        <constraint firstItem="Alo-DB-RHF" firstAttribute="top" secondItem="LCX-KE-3d6" secondAttribute="top" id="rr5-IO-qsH"/>
+                        <constraint firstAttribute="bottom" secondItem="7aN-k4-obA" secondAttribute="bottom" constant="10" id="s3I-0p-Ya4"/>
+                        <constraint firstItem="7aN-k4-obA" firstAttribute="leading" secondItem="LCX-KE-3d6" secondAttribute="leading" constant="10" id="uIw-te-rf7"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="LCX-KE-3d6" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="MgS-dc-iAc"/>
+                <constraint firstItem="LCX-KE-3d6" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Mrg-Ns-hsk"/>
+                <constraint firstItem="LCX-KE-3d6" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="Odc-Ne-PqV"/>
+                <constraint firstItem="LCX-KE-3d6" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="sTO-0i-GRH"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="clvBanner" destination="Alo-DB-RHF" id="YcH-XA-w6f"/>
+                <outlet property="pageControl" destination="7aN-k4-obA" id="BKL-gw-Gtj"/>
+            </connections>
+            <point key="canvasLocation" x="13" y="-208.5"/>
+        </view>
+    </objects>
+</document>
