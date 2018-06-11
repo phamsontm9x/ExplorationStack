@@ -15,7 +15,6 @@
 		1355DB8A20CA246F00ACB6B9 /* ExplorationStackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DB8920CA246F00ACB6B9 /* ExplorationStackTests.m */; };
 		1355DB9520CA246F00ACB6B9 /* ExplorationStackUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DB9420CA246F00ACB6B9 /* ExplorationStackUITests.m */; };
 		1355DBAE20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBAC20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m */; };
-		1355DBB120CA27A000ACB6B9 /* ExplorationStackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBB020CA27A000ACB6B9 /* ExplorationStackViewController.m */; };
 		1355DBB420CA4D3700ACB6B9 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBB320CA4D3700ACB6B9 /* CollectionViewController.m */; };
 		1355DBB820CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBB720CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m */; };
 /* End PBXBuildFile section */
@@ -54,8 +53,6 @@
 		1355DB9620CA246F00ACB6B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1355DBAC20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExplorationStackViewLayout.m; path = ExplorationStack/Classes/ExplorationStackViewLayout/ExplorationStackViewLayout.m; sourceTree = SOURCE_ROOT; };
 		1355DBAD20CA26ED00ACB6B9 /* ExplorationStackViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExplorationStackViewLayout.h; path = ExplorationStack/Classes/ExplorationStackViewLayout/ExplorationStackViewLayout.h; sourceTree = SOURCE_ROOT; };
-		1355DBAF20CA27A000ACB6B9 /* ExplorationStackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExplorationStackViewController.h; sourceTree = "<group>"; };
-		1355DBB020CA27A000ACB6B9 /* ExplorationStackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExplorationStackViewController.m; sourceTree = "<group>"; };
 		1355DBB220CA4D3700ACB6B9 /* CollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
 		1355DBB320CA4D3700ACB6B9 /* CollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		1355DBB620CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExplorationStackCollectionViewCell.h; sourceTree = "<group>"; };
@@ -140,7 +137,6 @@
 		1355DBA220CA248D00ACB6B9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1355DBA820CA262700ACB6B9 /* ExplorationStackViewController */,
 				1355DBA720CA25E600ACB6B9 /* ExplorationStackViewLayout */,
 				1355DBA420CA249C00ACB6B9 /* AppDelegate */,
 				1355DBA320CA249400ACB6B9 /* Controller */,
@@ -190,17 +186,7 @@
 				1355DBAD20CA26ED00ACB6B9 /* ExplorationStackViewLayout.h */,
 				1355DBAC20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m */,
 			);
-			name = ExplorationStackViewLayout;
-			path = "ç";
-			sourceTree = "<group>";
-		};
-		1355DBA820CA262700ACB6B9 /* ExplorationStackViewController */ = {
-			isa = PBXGroup;
-			children = (
-				1355DBAF20CA27A000ACB6B9 /* ExplorationStackViewController.h */,
-				1355DBB020CA27A000ACB6B9 /* ExplorationStackViewController.m */,
-			);
-			path = ExplorationStackViewController;
+			path = ExplorationStackViewLayout;
 			sourceTree = "<group>";
 		};
 		1355DBB520CA4D4700ACB6B9 /* ExplorationStackCollectionViewCell */ = {
@@ -342,7 +328,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1355DBB120CA27A000ACB6B9 /* ExplorationStackViewController.m in Sources */,
 				1355DB8020CA246E00ACB6B9 /* main.m in Sources */,
 				1355DB7220CA246D00ACB6B9 /* AppDelegate.m in Sources */,
 				1355DBB820CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m in Sources */,
@@ -517,8 +502,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 52BEENW56Y;
 				INFOPLIST_FILE = ExplorationStack/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -534,8 +520,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 52BEENW56Y;
 				INFOPLIST_FILE = ExplorationStack/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
