@@ -25,6 +25,5 @@
 @property (nonatomic, weak) id<MangaInfoCollectionViewDelegate> delegate;
 @property (nonatomic) UIColor *color;
 
-- (void)didChangeModeFullScreen;
 
 @end

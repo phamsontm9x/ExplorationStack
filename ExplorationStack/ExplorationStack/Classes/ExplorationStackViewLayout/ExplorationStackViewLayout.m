@@ -21,7 +21,6 @@
 //@property (nonatomic) CGFloat kHeight;
 @property (nonatomic) NSInteger centralCardYPosition;
 @property (nonatomic) CGFloat verticalOffsetBetweenViewStack;
-@property (nonatomic) BOOL isFullScreen;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRecognizerDown;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRecognizerUp;
@@ -59,7 +58,6 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 
     _verticalOffsetBetweenViewStack = 10;
     _centralCardYPosition = 150;
-    _isFullScreen = NO;
     //_itemSize = CGSizeMake(280, 380);
     _gesturesEnabled = YES;
 }
@@ -139,11 +137,7 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     CGFloat xPosition = (self.collectionView.frame.size.width - _itemSize.width)/2;
     CGRect itemFrame = CGRectMake(xPosition, yPosition, _itemSize.width, _itemSize.height);
     attribute.frame = itemFrame;
-    
-    if (attribute.indexPath.item == _indexItem && _isFullScreen) {
-        attribute.frame = self.collectionView.bounds;
-    }
-    
+
     if (attribute.indexPath.item == _indexItem) {
         _pointDefaultCell = attribute.center;
     }
@@ -398,43 +392,17 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 #pragma mark - Helpers
 
 - (void)loadFullScreen {
-    if (!_isFullScreen) {
-        _isFullScreen = YES;
-        __strong typeof(_delegateDrag) delegate = _delegateDrag;
-        if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:cellWillFullScreen:)]) {
-            [delegate explorationStackViewLayout:self cellWillFullScreen:[NSIndexPath indexPathForItem:_indexItem inSection:0]];
-        }
-        [self reloadLayoutCollectionView];
+    __strong typeof(_delegateDrag) delegate = _delegateDrag;
+    if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:cellWillFullScreen:)]) {
+        [delegate explorationStackViewLayout:self cellWillFullScreen:[NSIndexPath indexPathForItem:_indexItem inSection:0]];
     }
 }
 
 - (void)loadSmallScreen {
-    if (_isFullScreen) {
-        _isFullScreen = NO;
-        [self reloadLayoutCollectionView];
-        __strong typeof(_delegateDrag) delegate = _delegateDrag;
-        if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:cellDidSmallScreen:)]) {
-            [delegate explorationStackViewLayout:self cellDidSmallScreen:[NSIndexPath indexPathForItem:_indexItem inSection:0]];
-        }
-    }
-}
-
-- (void)reloadLayoutCollectionView {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.3];
-    
-    [CATransaction begin];
-    [CATransaction setAnimationDuration:0.3];
-    
-    [self.collectionView performBatchUpdates:^{
-        __weak typeof(&*self) self_weak_ = self;
-        [self_weak_ invalidateLayout];
-    } completion:^(BOOL finished) {
-        
-    }];
-    
-    [CATransaction commit];
-    [UIView commitAnimations];
+//    __strong typeof(_delegateDrag) delegate = _delegateDrag;
+//    if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:cellDidSmallScreen:)]) {
+//        [delegate explorationStackViewLayout:self cellDidSmallScreen:[NSIndexPath indexPathForItem:_indexItem inSection:0]];
+//    }
 }
 
 @end

@@ -10,16 +10,18 @@
 #import "ExplorationStackCollectionViewCell.h"
 #import "ExplorationStackViewLayout.h"
 #import "MangaInfoCollectionView.h"
+#import "ExplorationStackViewTransition.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 
-@interface CollectionViewController () <ExplorationStackViewLayoutDelegate, MangaInfoCollectionViewDelegate>
+@interface CollectionViewController () <ExplorationStackViewLayoutDelegate, MangaInfoCollectionViewDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSMutableArray *arrColor;
 @property (nonatomic, strong) UIButton *btnLeft;
 @property (nonatomic, strong) UIButton *btnRight;
 @property (nonatomic, strong) ExplorationStackViewLayout *layout;
-
+@property (nonatomic, strong) ExplorationStackViewTransition *transition;
 @property (nonatomic) NSIndexPath *indexCell;
 @property (nonatomic) BOOL fullScreen;
 
@@ -31,6 +33,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.transitioningDelegate = self;
     
     _indexCell  = 0;
     _fullScreen = NO;
@@ -54,8 +58,8 @@
     _btnRight = [[UIButton alloc] initWithFrame:CGRectMake(self.collectionView.frame.size.width - 30, self.collectionView.frame.size.height/2, 40, 40)];
     [_btnRight setBackgroundImage:[UIImage imageNamed:@"ic_select"] forState:UIControlStateNormal];
     
-    [self.view addSubview:_btnLeft];
-    [self.view addSubview:_btnRight];
+    [self.collectionView addSubview:_btnLeft];
+    [self.collectionView addSubview:_btnRight];
     
 }
 
@@ -66,7 +70,8 @@
 
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [_btnLeft setFrame:CGRectMake(-10, size.height/2, 40, 40)];
+
+    [_btnLeft setFrame:CGRectMake(-10 , size.height/2, 40, 40)];
     [_btnRight setFrame:CGRectMake(size.width - 30, size.height/2, 40, 40)];
     [self.collectionView reloadData];
 }
@@ -86,20 +91,9 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ExplorationStackCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ExplorationStackCollectionViewCell" forIndexPath:indexPath];
-    //cell.img.backgroundColor = _arrColor[indexPath.row%4];
     cell.titleLabel.text = [NSString stringWithFormat:@"View %ld",indexPath.row];
+    cell.backgroundColor = _arrColor[indexPath.row%4];
     
-    cell.vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:NSStringFromClass([MangaInfoCollectionView class])];
-    [cell.vc.view setFrame:cell.bounds];
-    cell.vc.color = _arrColor[indexPath.row%4];
-    cell.vc.delegate = self;
-    [self addChildViewController:cell.vc];
-    [cell addSubview:cell.vc.view];
-    
-    if (!_fullScreen) {
-        [cell.vc.collectionView setScrollEnabled:NO];
-    }
-
     return cell;
 }
 
@@ -126,29 +120,65 @@
 }
 
 - (void)explorationStackViewLayout:(UICollectionViewLayout *)collectionViewLayout cellWillFullScreen:(NSIndexPath *)indexPath {
-    [_btnRight setHidden:YES];
-    [_btnLeft setHidden:YES];
+   
     _indexCell = indexPath;
-    _fullScreen = YES;
-    _layout.gesturesEnabled = NO;
-    ExplorationStackCollectionViewCell *cell = (ExplorationStackCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-    [cell.vc.collectionView setScrollEnabled:YES];
+    
+    MangaInfoCollectionView *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:NSStringFromClass([MangaInfoCollectionView class])];
+    vc.transitioningDelegate = self;
+    vc.color = _arrColor[indexPath.row];
+    vc.delegate = self;
+    [vc.collectionView setScrollEnabled:YES];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
-- (void)explorationStackViewLayout:(UICollectionViewLayout *)collectionViewLayout cellDidSmallScreen:(NSIndexPath *)indexPath {
-//    [_btnRight setHidden:NO];
-//    [_btnLeft setHidden:NO];
-//    _indexCell = indexPath;
-//    _fullScreen = YES;
-}
 
 - (void)mangaInfoCollectionView:(MangaInfoCollectionView *)vc didSmallScreen:(NSIndexPath *)indexPath {
-    [_btnRight setHidden:NO];
-    [_btnLeft setHidden:NO];
-    _fullScreen = NO;
-    _layout.gesturesEnabled = YES;
-    [_layout loadSmallScreen];
-    [vc.collectionView setScrollEnabled:NO];
+
+}
+
+- (CGRect)getFrameCellAtIndexPath:(NSIndexPath*)indexPath {
+    UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
+    
+    return attributes.frame;
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    _transition = [[ExplorationStackViewTransition alloc] init];
+    _transition.reverse = NO;
+    _transition.fromViewDefault = [self getFrameCellAtIndexPath:_indexCell];
+    _transition.snapShot = [[UIImageView alloc] initWithFrame:_transition.fromViewDefault];
+    _transition.snapShot.image = [self captureViewWithFrame:_transition.fromViewDefault];
+    _transition.snapShot.contentMode = UIViewContentModeScaleAspectFit;
+    return _transition;
+}
+
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+
+    _transition = [[ExplorationStackViewTransition alloc] init];
+    _transition.reverse = YES;
+    _transition.fromViewDefault = [self getFrameCellAtIndexPath:_indexCell];
+    _transition.snapShot = [[UIImageView alloc] initWithFrame:_transition.fromViewDefault];
+    _transition.snapShot.image = [self captureViewWithFrame:_transition.fromViewDefault];
+    _transition.snapShot.contentMode = UIViewContentModeScaleAspectFit;
+    return _transition;
+}
+
+
+#pragma mark - UIImage
+
+- (UIImage*)captureViewWithFrame:(CGRect)frame {
+    
+    ExplorationStackCollectionViewCell *cell = (ExplorationStackCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:_indexCell];
+    UIGraphicsBeginImageContext(frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [cell.layer renderInContext:context];
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+
 }
 
 

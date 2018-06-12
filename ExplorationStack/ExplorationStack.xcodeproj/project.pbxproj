@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13086CB920CFA6CC00D988F7 /* ExplorationStackViewTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 13086CB820CFA6CC00D988F7 /* ExplorationStackViewTransition.m */; };
+		13086CBC20CFA78100D988F7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13086CBB20CFA78100D988F7 /* CoreGraphics.framework */; };
+		13086CBE20CFA78700D988F7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13086CBD20CFA78700D988F7 /* UIKit.framework */; };
+		13086CC020CFA78F00D988F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13086CBF20CFA78F00D988F7 /* Foundation.framework */; };
+		13086CCF20CFC08600D988F7 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13086CCE20CFC08600D988F7 /* NavigationController.m */; };
 		1355DB7220CA246D00ACB6B9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DB7120CA246D00ACB6B9 /* AppDelegate.m */; };
 		1355DB7820CA246D00ACB6B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1355DB7620CA246D00ACB6B9 /* Main.storyboard */; };
 		1355DB7A20CA246E00ACB6B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1355DB7920CA246E00ACB6B9 /* Assets.xcassets */; };
@@ -38,6 +43,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		13086CB720CFA6CC00D988F7 /* ExplorationStackViewTransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExplorationStackViewTransition.h; sourceTree = "<group>"; };
+		13086CB820CFA6CC00D988F7 /* ExplorationStackViewTransition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExplorationStackViewTransition.m; sourceTree = "<group>"; };
+		13086CBB20CFA78100D988F7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		13086CBD20CFA78700D988F7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		13086CBF20CFA78F00D988F7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		13086CCD20CFC08600D988F7 /* NavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
+		13086CCE20CFC08600D988F7 /* NavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		1355DB6D20CA246D00ACB6B9 /* ExplorationStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExplorationStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1355DB7020CA246D00ACB6B9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1355DB7120CA246D00ACB6B9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -67,6 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13086CC020CFA78F00D988F7 /* Foundation.framework in Frameworks */,
+				13086CBE20CFA78700D988F7 /* UIKit.framework in Frameworks */,
+				13086CBC20CFA78100D988F7 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +102,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13086CB620CFA69200D988F7 /* ExplorationStackViewTransition */ = {
+			isa = PBXGroup;
+			children = (
+				13086CB720CFA6CC00D988F7 /* ExplorationStackViewTransition.h */,
+				13086CB820CFA6CC00D988F7 /* ExplorationStackViewTransition.m */,
+			);
+			path = ExplorationStackViewTransition;
+			sourceTree = "<group>";
+		};
+		13086CBA20CFA78000D988F7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13086CBF20CFA78F00D988F7 /* Foundation.framework */,
+				13086CBD20CFA78700D988F7 /* UIKit.framework */,
+				13086CBB20CFA78100D988F7 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		13086CCC20CFC07500D988F7 /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				13086CCD20CFC08600D988F7 /* NavigationController.h */,
+				13086CCE20CFC08600D988F7 /* NavigationController.m */,
+			);
+			path = NavigationController;
+			sourceTree = "<group>";
+		};
 		1355DB6420CA246D00ACB6B9 = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +137,7 @@
 				1355DB8820CA246F00ACB6B9 /* ExplorationStackTests */,
 				1355DB9320CA246F00ACB6B9 /* ExplorationStackUITests */,
 				1355DB6E20CA246D00ACB6B9 /* Products */,
+				13086CBA20CFA78000D988F7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,8 +184,10 @@
 		1355DBA220CA248D00ACB6B9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1355DBA720CA25E600ACB6B9 /* ExplorationStackViewLayout */,
+				13086CCC20CFC07500D988F7 /* NavigationController */,
+				13086CB620CFA69200D988F7 /* ExplorationStackViewTransition */,
 				1355DBA420CA249C00ACB6B9 /* AppDelegate */,
+				1355DBA720CA25E600ACB6B9 /* ExplorationStackViewLayout */,
 				1355DBA320CA249400ACB6B9 /* CollectionViewController */,
 			);
 			path = Classes;
@@ -341,10 +387,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13086CB920CFA6CC00D988F7 /* ExplorationStackViewTransition.m in Sources */,
 				1355DB8020CA246E00ACB6B9 /* main.m in Sources */,
 				1355DB7220CA246D00ACB6B9 /* AppDelegate.m in Sources */,
 				137ECDA620CE84E50095AF96 /* MangaInfoCollectionView.m in Sources */,
 				1355DBB820CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m in Sources */,
+				13086CCF20CFC08600D988F7 /* NavigationController.m in Sources */,
 				1355DBB420CA4D3700ACB6B9 /* CollectionViewController.m in Sources */,
 				1355DBAE20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m in Sources */,
 			);

@@ -7,6 +7,7 @@
 //
 
 #import "MangaInfoCollectionView.h"
+#import "ExplorationStackViewTransition.h"
 
 @interface MangaInfoCollectionView () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
@@ -39,19 +40,11 @@ static NSString * const reuseIdentifier = @"Cell";
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidLayoutSubviews {
-//    [super viewDidLayoutSubviews];
-//    [self.collectionView.collectionViewLayout invalidateLayout];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.collectionView setScrollEnabled:YES];
 }
 
-- (void)didChangeModeFullScreen {
-    
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size
-       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    
-}
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -86,11 +79,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView.contentOffset.y < -50 && _isTopScrollView) {
-        __strong typeof(_delegate) delegate = _delegate;
-        if (delegate && [delegate respondsToSelector:@selector(mangaInfoCollectionView:didSmallScreen:)]) {
-            _isTopScrollView = NO;
-            [delegate mangaInfoCollectionView:self didSmallScreen:nil];
-        }
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
