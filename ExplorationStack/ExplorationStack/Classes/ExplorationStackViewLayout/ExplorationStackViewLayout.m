@@ -15,6 +15,7 @@
 @property (nonatomic) NSInteger indexItem;
 @property (nonatomic) NSInteger numberRowOfSection;
 @property (nonatomic) CGPoint pointCurrentCell;
+@property (nonatomic) CGPoint pointDefaultCell;
 @property (nonatomic) NSIndexPath *currentDraggedCellPath;
 //@property (nonatomic) CGFloat paddingWidth;
 //@property (nonatomic) CGFloat kHeight;
@@ -33,6 +34,8 @@
 
 __const NSInteger maxZIndexTopStack = 1000;
 __const NSInteger dragingCellZIndex = 10000;
+__const CGFloat kHeight = 0.6;
+__const CGFloat paddingWidth = 80;
 
 #warning check value
 
@@ -53,12 +56,11 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 }
 
 - (void)initialize {
-//    _kHeight = 0.6;
-//    _paddingWidth = 50;
+
     _verticalOffsetBetweenViewStack = 10;
     _centralCardYPosition = 150;
     _isFullScreen = NO;
-    _itemSize = CGSizeMake(280, 380);
+    //_itemSize = CGSizeMake(280, 380);
     _gesturesEnabled = YES;
 }
 
@@ -66,11 +68,10 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 #pragma mark - Override
 
 - (void)prepareLayout {
-    [self configGesture];
-    _itemSize =  CGSizeMake(_itemSize.width, _itemSize.height);
+//    [self configGesture];
+    _itemSize =  CGSizeMake(self.collectionView.bounds.size.width - paddingWidth *2, self.collectionView.bounds.size.height *kHeight);
     _topStackMaximumSize = 3;
     _numberRowOfSection = [self.collectionView numberOfItemsInSection:0];
-    self.collectionView.scrollEnabled = NO;
 }
 
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect {
@@ -143,19 +144,23 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
         attribute.frame = self.collectionView.bounds;
     }
     
+    if (attribute.indexPath.item == _indexItem) {
+        _pointDefaultCell = attribute.center;
+    }
+    
     return attribute;
 }
 
 - (UICollectionViewLayoutAttributes *)getLayoutAttributesForStackItemBotWithInitialAttributes:(UICollectionViewLayoutAttributes *)attribute {
     
     
-//    CGFloat yPosition = self.collectionView.frame.size.height - _bottomStackCardHeight -50;
-//    CGFloat xPosition = (self.collectionView.frame.size.width - _itemSize.width)/2;
-//
-//    CGRect itemFrame = CGRectMake(xPosition, yPosition, _itemSize.width, _itemSize.height);
-//    attribute.frame = itemFrame;
+    CGFloat yPosition = self.collectionView.frame.size.height;
+    CGFloat xPosition = (self.collectionView.frame.size.width - _itemSize.width)/2;
+
+    CGRect itemFrame = CGRectMake(xPosition, yPosition, _itemSize.width, _itemSize.height);
+    attribute.frame = itemFrame;
     
-    attribute.hidden = YES;
+//    attribute.hidden = YES;
     
     return attribute;
 }
@@ -164,8 +169,40 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 #pragma mark - Handling the Swipe and PanGesture
 
 - (void)setGesturesEnabled:(BOOL)gesturesEnabled {
-    
-
+    _gesturesEnabled = gesturesEnabled;
+    if (_gesturesEnabled) {
+        if (!_swipeRecognizerUp) {
+            _swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
+            _swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
+            _swipeRecognizerUp.delegate = self;
+            [self.collectionView addGestureRecognizer:_swipeRecognizerUp];
+        }
+        
+        if (!_swipeRecognizerDown) {
+            _swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
+            _swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
+            _swipeRecognizerDown.delegate = self;
+            [self.collectionView addGestureRecognizer:_swipeRecognizerDown];
+        }
+        
+        if (!_panGestureRecognizer) {
+            _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer:)];
+            _panGestureRecognizer.delegate = self;
+            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerUp];
+            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerDown];
+            [self.collectionView addGestureRecognizer:_panGestureRecognizer];
+        }
+        
+    } else {
+        
+        [self.collectionView removeGestureRecognizer:_panGestureRecognizer];
+        [self.collectionView removeGestureRecognizer:_swipeRecognizerUp];
+        [self.collectionView removeGestureRecognizer:_swipeRecognizerDown];
+        
+        _panGestureRecognizer = nil;
+        _swipeRecognizerUp = nil;
+        _swipeRecognizerDown = nil;
+    }
 }
 
 - (void)setIndexItem:(NSInteger)indexItem {
@@ -196,7 +233,9 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     switch (sender.direction) {
         case UISwipeGestureRecognizerDirectionUp:
         {
-            [self loadFullScreen];
+            if (sender.state == UIGestureRecognizerStateEnded) {
+                [self loadFullScreen];
+            }
         }
             break;
         case UISwipeGestureRecognizerDirectionDown:
@@ -292,9 +331,12 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     if (deltaX < minimumXPanDistanceToSwipe) {
         
         if (cell) {
-            [UIView setAnimationsEnabled:NO];
-            [self.collectionView reloadItemsAtIndexPaths:@[self.currentDraggedCellPath]];
-            [UIView setAnimationsEnabled:YES];
+    
+            [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                __weak typeof(&*self) self_weak_ = self;
+                cell.center = self_weak_.pointDefaultCell;
+                cell.transform = CGAffineTransformIdentity;
+            } completion:nil];
             
             if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:updateDraggingLeft:Right:)]) {
                 [delegate explorationStackViewLayout:self updateDraggingLeft:isLeft Right:isRight];
@@ -360,7 +402,7 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
         _isFullScreen = YES;
         __strong typeof(_delegateDrag) delegate = _delegateDrag;
         if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:cellWillFullScreen:)]) {
-            [delegate explorationStackViewLayout:self cellWillFullScreen:self.currentDraggedCellPath];
+            [delegate explorationStackViewLayout:self cellWillFullScreen:[NSIndexPath indexPathForItem:_indexItem inSection:0]];
         }
         [self reloadLayoutCollectionView];
     }
@@ -372,7 +414,7 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
         [self reloadLayoutCollectionView];
         __strong typeof(_delegateDrag) delegate = _delegateDrag;
         if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:cellDidSmallScreen:)]) {
-            [delegate explorationStackViewLayout:self cellDidSmallScreen:self.currentDraggedCellPath];
+            [delegate explorationStackViewLayout:self cellDidSmallScreen:[NSIndexPath indexPathForItem:_indexItem inSection:0]];
         }
     }
 }
@@ -393,42 +435,6 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     
     [CATransaction commit];
     [UIView commitAnimations];
-}
-
-- (void)configGesture {
-    if (_gesturesEnabled) {
-        if (!_swipeRecognizerUp) {
-            _swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
-            _swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
-            _swipeRecognizerUp.delegate = self;
-            [self.collectionView addGestureRecognizer:_swipeRecognizerUp];
-        }
-        
-        if (!_swipeRecognizerDown) {
-            _swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
-            _swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
-            _swipeRecognizerDown.delegate = self;
-            [self.collectionView addGestureRecognizer:_swipeRecognizerDown];
-        }
-        
-        if (!_panGestureRecognizer) {
-            _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer:)];
-            _panGestureRecognizer.delegate = self;
-            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerUp];
-            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerDown];
-            [self.collectionView addGestureRecognizer:_panGestureRecognizer];
-        }
-        
-    } else {
-        
-        [self.collectionView removeGestureRecognizer:_panGestureRecognizer];
-        [self.collectionView removeGestureRecognizer:_swipeRecognizerUp];
-        [self.collectionView removeGestureRecognizer:_swipeRecognizerDown];
-        
-        _panGestureRecognizer = nil;
-        _swipeRecognizerUp = nil;
-        _swipeRecognizerDown = nil;
-    }
 }
 
 @end

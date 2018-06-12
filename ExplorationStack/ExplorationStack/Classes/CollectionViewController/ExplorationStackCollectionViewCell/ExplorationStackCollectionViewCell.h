@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DetailDishVC.h"
+#import "MangaInfoCollectionView.h"
 
 @interface ExplorationStackCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) IBOutlet UIImageView *img;
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
+
+@property (nonatomic, strong) MangaInfoCollectionView *vc;
 
 
 

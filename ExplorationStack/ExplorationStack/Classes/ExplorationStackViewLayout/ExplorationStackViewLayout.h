@@ -45,6 +45,7 @@
 // A Boolean value indicating whether the pan and swipe gestures on cards are enabled.
 @property (nonatomic) BOOL gesturesEnabled;
 
-- (void)disableGesture;
+- (void)loadSmallScreen;
+- (void)loadFullScreen;
 
 @end

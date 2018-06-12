@@ -7,7 +7,6 @@
 //
 
 #import "ExplorationStackCollectionViewCell.h"
-#import "DetailDishVC.h"
 
 @implementation ExplorationStackCollectionViewCell
 

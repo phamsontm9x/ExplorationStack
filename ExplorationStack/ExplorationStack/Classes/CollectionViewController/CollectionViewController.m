@@ -9,11 +9,11 @@
 #import "CollectionViewController.h"
 #import "ExplorationStackCollectionViewCell.h"
 #import "ExplorationStackViewLayout.h"
-#import "MagaInfoCollectionView.h"
+#import "MangaInfoCollectionView.h"
 
 
 
-@interface CollectionViewController () <ExplorationStackViewLayoutDelegate>
+@interface CollectionViewController () <ExplorationStackViewLayoutDelegate, MangaInfoCollectionViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *arrColor;
 @property (nonatomic, strong) UIButton *btnLeft;
@@ -38,11 +38,13 @@
     [_arrColor addObject:[UIColor grayColor]];
     [_arrColor addObject:[UIColor blueColor]];
     [_arrColor addObject:[UIColor yellowColor]];
-    [_arrColor addObject:[UIColor grayColor]];
+    [_arrColor addObject:[UIColor magentaColor]];
     
     _layout = [[ExplorationStackViewLayout alloc] init];
     self.collectionView.collectionViewLayout = _layout;
+    [self.collectionView setScrollEnabled:NO];
     _layout.delegateDrag = self;
+    _layout.gesturesEnabled = YES;
     
     [self.collectionView reloadData];
     
@@ -63,6 +65,13 @@
 }
 
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [_btnLeft setFrame:CGRectMake(-10, size.height/2, 40, 40)];
+    [_btnRight setFrame:CGRectMake(size.width - 30, size.height/2, 40, 40)];
+    [self.collectionView reloadData];
+}
+
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -77,16 +86,20 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ExplorationStackCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ExplorationStackCollectionViewCell" forIndexPath:indexPath];
-   // cell.img.backgroundColor = _arrColor[indexPath.row%4];
+    //cell.img.backgroundColor = _arrColor[indexPath.row%4];
     cell.titleLabel.text = [NSString stringWithFormat:@"View %ld",indexPath.row];
     
-    if (indexPath.row == 0) {
-        MagaInfoCollectionView * vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:NSStringFromClass([MagaInfoCollectionView class])];
-        [self addChildViewController:vc];
-        [cell addSubview:vc.view];
+    cell.vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:NSStringFromClass([MangaInfoCollectionView class])];
+    [cell.vc.view setFrame:cell.bounds];
+    cell.vc.color = _arrColor[indexPath.row%4];
+    cell.vc.delegate = self;
+    [self addChildViewController:cell.vc];
+    [cell addSubview:cell.vc.view];
+    
+    if (!_fullScreen) {
+        [cell.vc.collectionView setScrollEnabled:NO];
     }
 
-    
     return cell;
 }
 
@@ -118,13 +131,24 @@
     _indexCell = indexPath;
     _fullScreen = YES;
     _layout.gesturesEnabled = NO;
+    ExplorationStackCollectionViewCell *cell = (ExplorationStackCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    [cell.vc.collectionView setScrollEnabled:YES];
 }
 
 - (void)explorationStackViewLayout:(UICollectionViewLayout *)collectionViewLayout cellDidSmallScreen:(NSIndexPath *)indexPath {
+//    [_btnRight setHidden:NO];
+//    [_btnLeft setHidden:NO];
+//    _indexCell = indexPath;
+//    _fullScreen = YES;
+}
+
+- (void)mangaInfoCollectionView:(MangaInfoCollectionView *)vc didSmallScreen:(NSIndexPath *)indexPath {
     [_btnRight setHidden:NO];
     [_btnLeft setHidden:NO];
-    _indexCell = indexPath;
-    _fullScreen = YES;
+    _fullScreen = NO;
+    _layout.gesturesEnabled = YES;
+    [_layout loadSmallScreen];
+    [vc.collectionView setScrollEnabled:NO];
 }
 
 
