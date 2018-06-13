@@ -7,7 +7,6 @@
 //
 
 #import "ExplorationStackViewTransition.h"
-#import "CollectionViewController.h"
 
 
 
@@ -45,29 +44,36 @@
     toView.frame = [transitionContext finalFrameForViewController:toVC];
     [containerView addSubview:toView];
     [containerView addSubview:fromView];
-    if (_reverse) {
-        
-    } else {
-        [containerView sendSubviewToBack:toView];
-    }
     
+    UIView *endingView = [[UIView alloc] initWithFrame:(_reverse) ? _fromViewDefault : toView.frame];
+    
+    
+    CGFloat endingViewInitialTransform = CGRectGetHeight(fromView.frame) / CGRectGetHeight(endingView.frame);
+    CGPoint translatedStartingViewCenter = fromView.center;
+    toView.center = translatedStartingViewCenter;
+    
+    toView.alpha = (_reverse) ? 1 : 0;
+    fromView.alpha = 1.0;
+    
+    CGFloat startingViewFinalTransform = 1.0 / endingViewInitialTransform;
+    CGPoint translatedEndingViewFinalCenter = toView.center;
     
     // animate
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     
-    
-    [UIView animateWithDuration:duration animations:^{
-        __weak typeof(&*self) self_weak_ = self;
-        if (self_weak_.reverse) {
-            [fromView setFrame:self_weak_.fromViewDefault];
-        } else {
-            [fromView setFrame:toView.frame];
-        }
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         toView.center = translatedEndingViewFinalCenter;
+                         fromView.transform = CGAffineTransformScale(fromView.transform, startingViewFinalTransform, startingViewFinalTransform);
+                         fromView.center = translatedEndingViewFinalCenter;
     } completion:^(BOOL finished) {
         if ([transitionContext transitionWasCancelled]) {
             
         } else {
-            // reset from- view to its original state
+            toView.alpha = 1.0;
+            fromView.alpha = 0.0;
             [fromView removeFromSuperview];
         }
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];

@@ -34,7 +34,7 @@
 __const NSInteger maxZIndexTopStack = 1000;
 __const NSInteger dragingCellZIndex = 10000;
 __const CGFloat kHeight = 0.6;
-__const CGFloat paddingWidth = 80;
+__const CGFloat kWidth = 0.6;
 
 #warning check value
 
@@ -55,10 +55,7 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 }
 
 - (void)initialize {
-
     _verticalOffsetBetweenViewStack = 10;
-    _centralCardYPosition = 150;
-    //_itemSize = CGSizeMake(280, 380);
     _gesturesEnabled = YES;
 }
 
@@ -66,8 +63,8 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 #pragma mark - Override
 
 - (void)prepareLayout {
-//    [self configGesture];
-    _itemSize =  CGSizeMake(self.collectionView.bounds.size.width - paddingWidth *2, self.collectionView.bounds.size.height *kHeight);
+    _centralCardYPosition = self.collectionView.bounds.size.height * (1 - kHeight) / 2 ;
+    _itemSize =  CGSizeMake(self.collectionView.bounds.size.width *kWidth, self.collectionView.bounds.size.height *kHeight);
     _topStackMaximumSize = 3;
     _numberRowOfSection = [self.collectionView numberOfItemsInSection:0];
 }

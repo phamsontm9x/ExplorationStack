@@ -11,7 +11,7 @@
 
 
 
-@interface ExplorationStackViewTransition : NSObject<UIViewControllerAnimatedTransitioning, UINavigationControllerDelegate>
+@interface ExplorationStackViewTransition : NSObject<UIViewControllerAnimatedTransitioning>
 
 - (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext fromVC:(UIViewController *)fromVC toVC:(UIViewController *)toVC fromView:(UIView *)fromView toView:(UIView *)toView;
 

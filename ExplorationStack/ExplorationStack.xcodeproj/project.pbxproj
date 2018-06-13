@@ -20,8 +20,9 @@
 		1355DB8A20CA246F00ACB6B9 /* ExplorationStackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DB8920CA246F00ACB6B9 /* ExplorationStackTests.m */; };
 		1355DB9520CA246F00ACB6B9 /* ExplorationStackUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DB9420CA246F00ACB6B9 /* ExplorationStackUITests.m */; };
 		1355DBAE20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBAC20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m */; };
-		1355DBB420CA4D3700ACB6B9 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBB320CA4D3700ACB6B9 /* CollectionViewController.m */; };
 		1355DBB820CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355DBB720CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m */; };
+		135DD36720D0BC8000504461 /* ExplorationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 135DD36620D0BC8000504461 /* ExplorationViewController.m */; };
+		135DD36D20D0D7DB00504461 /* ExplorationStackInteractiveTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = 135DD36C20D0D7DB00504461 /* ExplorationStackInteractiveTransitioning.m */; };
 		137ECDA620CE84E50095AF96 /* MangaInfoCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 137ECDA520CE84E50095AF96 /* MangaInfoCollectionView.m */; };
 /* End PBXBuildFile section */
 
@@ -66,10 +67,12 @@
 		1355DB9620CA246F00ACB6B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1355DBAC20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExplorationStackViewLayout.m; path = ExplorationStack/Classes/ExplorationStackViewLayout/ExplorationStackViewLayout.m; sourceTree = SOURCE_ROOT; };
 		1355DBAD20CA26ED00ACB6B9 /* ExplorationStackViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExplorationStackViewLayout.h; path = ExplorationStack/Classes/ExplorationStackViewLayout/ExplorationStackViewLayout.h; sourceTree = SOURCE_ROOT; };
-		1355DBB220CA4D3700ACB6B9 /* CollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
-		1355DBB320CA4D3700ACB6B9 /* CollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		1355DBB620CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExplorationStackCollectionViewCell.h; sourceTree = "<group>"; };
 		1355DBB720CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExplorationStackCollectionViewCell.m; sourceTree = "<group>"; };
+		135DD36520D0BC8000504461 /* ExplorationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExplorationViewController.h; sourceTree = "<group>"; };
+		135DD36620D0BC8000504461 /* ExplorationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExplorationViewController.m; sourceTree = "<group>"; };
+		135DD36B20D0D7DB00504461 /* ExplorationStackInteractiveTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExplorationStackInteractiveTransitioning.h; sourceTree = "<group>"; };
+		135DD36C20D0D7DB00504461 /* ExplorationStackInteractiveTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExplorationStackInteractiveTransitioning.m; sourceTree = "<group>"; };
 		137ECDA420CE84E50095AF96 /* MangaInfoCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MangaInfoCollectionView.h; sourceTree = "<group>"; };
 		137ECDA520CE84E50095AF96 /* MangaInfoCollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MangaInfoCollectionView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +108,7 @@
 		13086CB620CFA69200D988F7 /* ExplorationStackViewTransition */ = {
 			isa = PBXGroup;
 			children = (
+				135DD36A20D0D7BB00504461 /* ExplorationStackInteractiveTransitioning */,
 				13086CB720CFA6CC00D988F7 /* ExplorationStackViewTransition.h */,
 				13086CB820CFA6CC00D988F7 /* ExplorationStackViewTransition.m */,
 			);
@@ -184,24 +188,14 @@
 		1355DBA220CA248D00ACB6B9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				137ECDA320CE84C40095AF96 /* MagaInfoCollectionView */,
+				135DD36420D0BC5F00504461 /* ExplorationViewController */,
 				13086CCC20CFC07500D988F7 /* NavigationController */,
 				13086CB620CFA69200D988F7 /* ExplorationStackViewTransition */,
 				1355DBA420CA249C00ACB6B9 /* AppDelegate */,
 				1355DBA720CA25E600ACB6B9 /* ExplorationStackViewLayout */,
-				1355DBA320CA249400ACB6B9 /* CollectionViewController */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		1355DBA320CA249400ACB6B9 /* CollectionViewController */ = {
-			isa = PBXGroup;
-			children = (
-				137ECDA320CE84C40095AF96 /* MagaInfoCollectionView */,
-				1355DBB520CA4D4700ACB6B9 /* ExplorationStackCollectionViewCell */,
-				1355DBB220CA4D3700ACB6B9 /* CollectionViewController.h */,
-				1355DBB320CA4D3700ACB6B9 /* CollectionViewController.m */,
-			);
-			path = CollectionViewController;
 			sourceTree = "<group>";
 		};
 		1355DBA420CA249C00ACB6B9 /* AppDelegate */ = {
@@ -248,9 +242,28 @@
 			path = ExplorationStackCollectionViewCell;
 			sourceTree = "<group>";
 		};
+		135DD36420D0BC5F00504461 /* ExplorationViewController */ = {
+			isa = PBXGroup;
+			children = (
+				135DD36520D0BC8000504461 /* ExplorationViewController.h */,
+				135DD36620D0BC8000504461 /* ExplorationViewController.m */,
+			);
+			path = ExplorationViewController;
+			sourceTree = "<group>";
+		};
+		135DD36A20D0D7BB00504461 /* ExplorationStackInteractiveTransitioning */ = {
+			isa = PBXGroup;
+			children = (
+				135DD36B20D0D7DB00504461 /* ExplorationStackInteractiveTransitioning.h */,
+				135DD36C20D0D7DB00504461 /* ExplorationStackInteractiveTransitioning.m */,
+			);
+			path = ExplorationStackInteractiveTransitioning;
+			sourceTree = "<group>";
+		};
 		137ECDA320CE84C40095AF96 /* MagaInfoCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				1355DBB520CA4D4700ACB6B9 /* ExplorationStackCollectionViewCell */,
 				137ECDA420CE84E50095AF96 /* MangaInfoCollectionView.h */,
 				137ECDA520CE84E50095AF96 /* MangaInfoCollectionView.m */,
 			);
@@ -391,9 +404,10 @@
 				1355DB8020CA246E00ACB6B9 /* main.m in Sources */,
 				1355DB7220CA246D00ACB6B9 /* AppDelegate.m in Sources */,
 				137ECDA620CE84E50095AF96 /* MangaInfoCollectionView.m in Sources */,
+				135DD36720D0BC8000504461 /* ExplorationViewController.m in Sources */,
 				1355DBB820CA4D7500ACB6B9 /* ExplorationStackCollectionViewCell.m in Sources */,
 				13086CCF20CFC08600D988F7 /* NavigationController.m in Sources */,
-				1355DBB420CA4D3700ACB6B9 /* CollectionViewController.m in Sources */,
+				135DD36D20D0D7DB00504461 /* ExplorationStackInteractiveTransitioning.m in Sources */,
 				1355DBAE20CA26ED00ACB6B9 /* ExplorationStackViewLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
