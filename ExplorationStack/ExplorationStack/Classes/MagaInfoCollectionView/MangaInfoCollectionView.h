@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-
+#import "ExplorationStackInteractiveTransitioning.h"
 
 @class MangaInfoCollectionView;
 
@@ -23,9 +23,8 @@
 @interface MangaInfoCollectionView : UICollectionViewController
 
 @property (nonatomic, weak) id<MangaInfoCollectionViewDelegate> delegate;
+@property (nonatomic, strong) ExplorationStackInteractiveTransitioning *interactiveTransition;
 @property (nonatomic) UIColor *color;
-
 @property (nonatomic) NSInteger numberOfRow;;
-
 
 @end

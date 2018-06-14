@@ -12,18 +12,11 @@
 
 @interface ExplorationStackViewLayout() <UIGestureRecognizerDelegate>
 
-@property (nonatomic) NSInteger indexItem;
 @property (nonatomic) NSInteger numberRowOfSection;
 @property (nonatomic) CGPoint pointCurrentCell;
-@property (nonatomic) CGPoint pointDefaultCell;
 @property (nonatomic) NSIndexPath *currentDraggedCellPath;
-//@property (nonatomic) CGFloat paddingWidth;
-//@property (nonatomic) CGFloat kHeight;
 @property (nonatomic) NSInteger centralCardYPosition;
 @property (nonatomic) CGFloat verticalOffsetBetweenViewStack;
-@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
-@property (nonatomic, strong) UISwipeGestureRecognizer *swipeRecognizerDown;
-@property (nonatomic, strong) UISwipeGestureRecognizer *swipeRecognizerUp;
 
 @end
 
@@ -36,12 +29,6 @@ __const NSInteger dragingCellZIndex = 10000;
 __const CGFloat kHeight = 0.6;
 __const CGFloat kWidth = 0.6;
 
-#warning check value
-
-__const NSInteger minimumXPanDistanceToSwipe = 100;
-
-
-@synthesize gesturesEnabled = _gesturesEnabled;
 
 
 #pragma mark - Inits
@@ -56,7 +43,6 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 
 - (void)initialize {
     _verticalOffsetBetweenViewStack = 10;
-    _gesturesEnabled = YES;
 }
 
 
@@ -156,251 +142,6 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     return attribute;
 }
 
-
-#pragma mark - Handling the Swipe and PanGesture
-
-- (void)setGesturesEnabled:(BOOL)gesturesEnabled {
-    _gesturesEnabled = gesturesEnabled;
-    if (_gesturesEnabled) {
-        if (!_swipeRecognizerUp) {
-            _swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
-            _swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
-            _swipeRecognizerUp.delegate = self;
-            [self.collectionView addGestureRecognizer:_swipeRecognizerUp];
-        }
-        
-        if (!_swipeRecognizerDown) {
-            _swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
-            _swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
-            _swipeRecognizerDown.delegate = self;
-            [self.collectionView addGestureRecognizer:_swipeRecognizerDown];
-        }
-        
-        if (!_panGestureRecognizer) {
-            _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer:)];
-            _panGestureRecognizer.delegate = self;
-            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerUp];
-            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerDown];
-            [self.collectionView addGestureRecognizer:_panGestureRecognizer];
-        }
-        
-    } else {
-        
-        [self.collectionView removeGestureRecognizer:_panGestureRecognizer];
-        [self.collectionView removeGestureRecognizer:_swipeRecognizerUp];
-        [self.collectionView removeGestureRecognizer:_swipeRecognizerDown];
-        
-        _panGestureRecognizer = nil;
-        _swipeRecognizerUp = nil;
-        _swipeRecognizerDown = nil;
-    }
-}
-
-- (void)setIndexItem:(NSInteger)indexItem {
-    if (_indexItem > indexItem) {
-        _currentDraggedCellPath = [NSIndexPath indexPathForRow:indexItem inSection:0];
-    } else {
-        _currentDraggedCellPath = [NSIndexPath indexPathForRow:_indexItem inSection:0];
-    }
-    
-    _indexItem = indexItem;
-    
-    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:_currentDraggedCellPath];
-    if (!cell) {
-        return;
-    } else {
-        [self.collectionView bringSubviewToFront:cell];
-        
-        [self.collectionView performBatchUpdates:^{
-            __weak typeof(&*self) self_weak_ = self;
-            [self_weak_ invalidateLayout];
-        } completion:^(BOOL finished) {
-            return;
-        }];
-    }
-}
-
-- (void)handleSwipeRecognizer:(UISwipeGestureRecognizer *)sender {
-    switch (sender.direction) {
-        case UISwipeGestureRecognizerDirectionUp:
-        {
-            if (sender.state == UIGestureRecognizerStateEnded) {
-                [self loadFullScreen];
-            }
-        }
-            break;
-        case UISwipeGestureRecognizerDirectionDown:
-        {
-            [self loadSmallScreen];
-        }
-            break;
-            
-        default:
-            break;
-    }
-
-}
-
-- (void)handlePanGestureRecognizer:(UIPanGestureRecognizer *)sender {
-    
-    switch (sender.state) {
-        case UIGestureRecognizerStateBegan: {
-            CGPoint pointGesture = [sender locationInView:self.collectionView];
-            [self findDraggingCellByCoordinate:pointGesture];
-        }
-            break;
-        
-        case UIGestureRecognizerStateChanged: {
-            CGPoint pointGesture = [sender translationInView:self.collectionView];
-            [self updatePositionOfDraggingCell:pointGesture];
-        }
-            break;
-            
-        case UIGestureRecognizerStateEnded: {
-            
-            [self finishedDraggingCell:[self.collectionView cellForItemAtIndexPath:_currentDraggedCellPath]];
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)findDraggingCellByCoordinate:(CGPoint)touchCoordinate {
-    NSIndexPath * indexPath = [self.collectionView indexPathForItemAtPoint:touchCoordinate];
-    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-    
-    if (cell) {
-        if (indexPath.item >= _indexItem) {
-            _currentDraggedCellPath = [NSIndexPath indexPathForRow:_indexItem inSection:0];
-        } else {
-            
-        }
-        _pointCurrentCell = cell.center;
-        _currentDraggedCellPath = indexPath;
-        [self.collectionView bringSubviewToFront:cell];
-    }
-}
-
-- (void)updatePositionOfDraggingCell:(CGPoint)touchCoordinate {
-    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:_currentDraggedCellPath];
-    
-    CGFloat newCenterX = _pointCurrentCell.x + touchCoordinate.x;
-    CGFloat newCenterY = _pointCurrentCell.y + touchCoordinate.y;
-    
-    if (cell) {
-        cell.center = CGPointMake(newCenterX, newCenterY);
-        cell.transform = CGAffineTransformRotate(CGAffineTransformIdentity,(CGFloat)[self getAngleOfRotation]);
-        
-        CGFloat deltaX = ABS(cell.center.x - _pointCurrentCell.x);
-        BOOL isLeft = NO;
-        BOOL isRight = NO;
-        
-        if (deltaX > minimumXPanDistanceToSwipe) {
-            if ([self getAngleOfRotation] > 0) {
-                isRight = YES;
-            } else {
-                isLeft = YES;
-            }
-        }
-        
-        __strong typeof(_delegateDrag) delegate = _delegateDrag;
-        if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:updateDraggingLeft:Right:)]) {
-            [delegate explorationStackViewLayout:self updateDraggingLeft:isLeft Right:isRight];
-        }
-    }
-}
-
-- (void)finishedDraggingCell:(UICollectionViewCell *)cell {
-    
-    CGFloat deltaX = ABS(cell.center.x - _pointCurrentCell.x);
-    BOOL isLeft = NO;
-    BOOL isRight = NO;
-    __strong typeof(_delegateDrag) delegate = _delegateDrag;
-    
-    if (deltaX < minimumXPanDistanceToSwipe) {
-        
-        if (cell) {
-    
-            [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                __weak typeof(&*self) self_weak_ = self;
-                cell.center = self_weak_.pointDefaultCell;
-                cell.transform = CGAffineTransformIdentity;
-            } completion:nil];
-            
-            if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:updateDraggingLeft:Right:)]) {
-                [delegate explorationStackViewLayout:self updateDraggingLeft:isLeft Right:isRight];
-            }
-        }
-        
-    } else {
-        
-        if (_currentDraggedCellPath.item == _indexItem) {
-            [self setIndexItem:_indexItem +1];
-        } else {
-            [self setIndexItem:_indexItem - 1];
-        }
-        _pointCurrentCell = CGPointZero;
-        _currentDraggedCellPath = nil;
-        
-        if ([self getAngleOfRotation] > 0) {
-            isRight = YES;
-        } else {
-            isLeft = YES;
-        }
-        
-        if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:didFinishDraggingLeft:Right:)]) {
-            [delegate explorationStackViewLayout:self didFinishDraggingLeft:isLeft Right:isRight];
-        }
-    }
-}
-
-- (double)getAngleOfRotation {
-    double result = 0;
-    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:_currentDraggedCellPath];
-    if (cell) {
-        CGFloat pointYCollectionView = self.collectionView.frame.size.height + _itemSize.height;
-        CGFloat angle = ((cell.center.x -  self.collectionView.bounds.size.width/2)/(pointYCollectionView - cell.center.y));
-        result = atan(angle);
-    }
-    
-    return result;
-}
-
-
-#pragma mark - UIGestureRecognizerDelegate
-
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
-
-    BOOL result = YES;
-    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-        CGPoint velocity = [gestureRecognizer velocityInView:self.collectionView];
-        result = abs((int)(velocity.y) < 250);
-    }
-
-    return result;
-}
-
-- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
-}
-
-#pragma mark - Helpers
-
-- (void)loadFullScreen {
-    __strong typeof(_delegateDrag) delegate = _delegateDrag;
-    if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:cellWillFullScreen:)]) {
-        [delegate explorationStackViewLayout:self cellWillFullScreen:[NSIndexPath indexPathForItem:_indexItem inSection:0]];
-    }
-}
-
-- (void)loadSmallScreen {
-//    __strong typeof(_delegateDrag) delegate = _delegateDrag;
-//    if (delegate && [delegate respondsToSelector:@selector(explorationStackViewLayout:cellDidSmallScreen:)]) {
-//        [delegate explorationStackViewLayout:self cellDidSmallScreen:[NSIndexPath indexPathForItem:_indexItem inSection:0]];
-//    }
-}
 
 @end
 

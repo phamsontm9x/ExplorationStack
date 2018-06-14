@@ -8,23 +8,40 @@
 
 #import "ExplorationViewController.h"
 #import "ExplorationStackCollectionViewCell.h"
-#import "ExplorationStackViewLayout.h"
+#import "ExplorationStackCollectionViewCell.h"
 #import "MangaInfoCollectionView.h"
 #import "ExplorationStackViewTransition.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ExplorationStackInteractiveTransitioning.h"
+#import "ExplorationStackViewLayout.h"
 
 
+#warning check value
+__const NSInteger minimumXPanDistanceToSwipe = 100;
 
-@interface ExplorationViewController () <ExplorationStackViewLayoutDelegate, MangaInfoCollectionViewDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ExplorationViewController () <MangaInfoCollectionViewDelegate, UIViewControllerTransitioningDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate>
 
-
+// IBOutlet
 @property (nonatomic, strong) IBOutlet UIButton *btnLeft;
 @property (nonatomic, strong) IBOutlet UIButton *btnRight;
 @property (nonatomic, strong) IBOutlet UICollectionView *collectionView;
 
+// Transition
+@property (nonatomic, strong) ExplorationStackViewTransition *transition;
+@property (nonatomic, strong) ExplorationStackInteractiveTransitioning *interactiveTransition;
+
+// Gesture
+@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeRecognizerDown;
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeRecognizerUp;
+@property (nonatomic) BOOL gesturesEnabled;
+
+// CollectionViewLayout
 @property (nonatomic, strong) ExplorationStackViewLayout *layout;
-@property (nonatomic) ExplorationStackViewTransition *transition;
+@property (nonatomic) NSInteger indexItem;
+@property (nonatomic) NSIndexPath *currentDraggedCellPath;
+@property (nonatomic) CGPoint pointCurrentCell;
+
 @property (nonatomic) NSIndexPath *indexCell;
 @property (nonatomic) BOOL fullScreen;
 @property (nonatomic, strong) NSMutableArray *arrColor;
@@ -34,26 +51,17 @@
 
 @implementation ExplorationViewController
 
+@synthesize gesturesEnabled = _gesturesEnabled;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self initFakeData];
+    [self initCollectionViewLayout];
+    [self setGesturesEnabled:YES];
+    [self initInteractiveTransition];
+    
     self.transitioningDelegate = self;
-    
-    _indexCell  = 0;
-    _fullScreen = NO;
-    _arrColor = [[NSMutableArray alloc] init];
-    [_arrColor addObject:[UIColor grayColor]];
-    [_arrColor addObject:[UIColor blueColor]];
-    [_arrColor addObject:[UIColor yellowColor]];
-    [_arrColor addObject:[UIColor magentaColor]];
-    
-    _layout = [[ExplorationStackViewLayout alloc] init];
-    self.collectionView.collectionViewLayout = _layout;
-    [self.collectionView setScrollEnabled:NO];
-    _layout.delegateDrag = self;
-    _layout.gesturesEnabled = YES;
-    
-    [self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,6 +69,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)initFakeData {
+    _indexCell  = 0;
+    _fullScreen = NO;
+    _arrColor = [[NSMutableArray alloc] init];
+    [_arrColor addObject:[UIColor grayColor]];
+    [_arrColor addObject:[UIColor blueColor]];
+    [_arrColor addObject:[UIColor yellowColor]];
+    [_arrColor addObject:[UIColor magentaColor]];
+}
+
+- (void)initCollectionViewLayout {
+    _layout = [[ExplorationStackViewLayout alloc] init];
+    self.collectionView.collectionViewLayout = _layout;
+    [self.collectionView setScrollEnabled:NO];
+    [self.collectionView reloadData];
+}
+
+- (void)initInteractiveTransition {
+   
+}
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [self.collectionView reloadData];
@@ -87,14 +115,226 @@
 }
 
 
-#pragma mark - ExplorationStackViewLayoutDelegate
+#pragma mark - Handling the Swipe and PanGesture
 
-- (void)explorationStackViewLayout:(UICollectionViewLayout *)collectionViewLayout didFinishDraggingLeft:(BOOL)isLeft Right:(BOOL)isRight {
+- (void)setGesturesEnabled:(BOOL)gesturesEnabled {
+    _gesturesEnabled = gesturesEnabled;
+    if (_gesturesEnabled) {
+        if (!_swipeRecognizerUp) {
+            _swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
+            _swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
+            _swipeRecognizerUp.delegate = self;
+            [self.collectionView addGestureRecognizer:_swipeRecognizerUp];
+        }
+        
+        if (!_swipeRecognizerDown) {
+            _swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRecognizer:)];
+            _swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
+            _swipeRecognizerDown.delegate = self;
+            [self.collectionView addGestureRecognizer:_swipeRecognizerDown];
+        }
+        
+        if (!_panGestureRecognizer) {
+            _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer:)];
+            _panGestureRecognizer.delegate = self;
+            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerUp];
+            [_panGestureRecognizer requireGestureRecognizerToFail:_swipeRecognizerDown];
+            [self.collectionView addGestureRecognizer:_panGestureRecognizer];
+        }
+        
+    } else {
+        
+        [self.collectionView removeGestureRecognizer:_panGestureRecognizer];
+        [self.collectionView removeGestureRecognizer:_swipeRecognizerUp];
+        [self.collectionView removeGestureRecognizer:_swipeRecognizerDown];
+        
+        _panGestureRecognizer = nil;
+        _swipeRecognizerUp = nil;
+        _swipeRecognizerDown = nil;
+    }
+}
+
+- (void)setIndexItem:(NSInteger)indexItem {
+    if (_indexItem > indexItem) {
+        _currentDraggedCellPath = [NSIndexPath indexPathForRow:indexItem inSection:0];
+    } else {
+        _currentDraggedCellPath = [NSIndexPath indexPathForRow:_indexItem inSection:0];
+    }
+    
+    _indexItem = indexItem;
+    _layout.indexItem = _indexItem;
+    
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:_currentDraggedCellPath];
+    if (!cell) {
+        return;
+    } else {
+        [self.collectionView bringSubviewToFront:cell];
+        
+        [self.collectionView performBatchUpdates:^{
+            __weak typeof(&*self) self_weak_ = self;
+            [self_weak_.collectionView.collectionViewLayout invalidateLayout];
+        } completion:^(BOOL finished) {
+            return;
+        }];
+    }
+}
+
+- (void)handleSwipeRecognizer:(UISwipeGestureRecognizer *)sender {
+    switch (sender.direction) {
+        case UISwipeGestureRecognizerDirectionUp:
+        {
+            if (sender.state == UIGestureRecognizerStateEnded) {
+                
+                [self selectedModeFullScreen:[NSIndexPath indexPathForItem:_indexItem inSection:0]];
+            }
+        }
+            break;
+        case UISwipeGestureRecognizerDirectionDown:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+}
+
+- (void)handlePanGestureRecognizer:(UIPanGestureRecognizer *)sender {
+    
+    switch (sender.state) {
+        case UIGestureRecognizerStateBegan: {
+            CGPoint pointGesture = [sender locationInView:self.collectionView];
+            [self findDraggingCellByCoordinate:pointGesture];
+        }
+            break;
+            
+        case UIGestureRecognizerStateChanged: {
+            CGPoint pointGesture = [sender translationInView:self.collectionView];
+            [self updatePositionOfDraggingCell:pointGesture];
+        }
+            break;
+            
+        case UIGestureRecognizerStateEnded: {
+            
+            [self finishedDraggingCell:[self.collectionView cellForItemAtIndexPath:_currentDraggedCellPath]];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)findDraggingCellByCoordinate:(CGPoint)touchCoordinate {
+    NSIndexPath * indexPath = [self.collectionView indexPathForItemAtPoint:touchCoordinate];
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+    
+    if (cell) {
+        if (indexPath.item >= _indexItem) {
+            _currentDraggedCellPath = [NSIndexPath indexPathForRow:_indexItem inSection:0];
+        } else {
+            
+        }
+        _pointCurrentCell = cell.center;
+        _currentDraggedCellPath = indexPath;
+        [self.collectionView bringSubviewToFront:cell];
+    }
+}
+
+- (void)updatePositionOfDraggingCell:(CGPoint)touchCoordinate {
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:_currentDraggedCellPath];
+    
+    CGFloat newCenterX = _pointCurrentCell.x + touchCoordinate.x;
+    CGFloat newCenterY = _pointCurrentCell.y + touchCoordinate.y;
+    
+    if (newCenterY < 150) {
+        self.interactiveTransition.interactionInProgress = YES;
+    } else {
+        self.interactiveTransition.interactionInProgress = NO;
+    }
+    
+    if (cell) {
+        cell.center = CGPointMake(newCenterX, newCenterY);
+        cell.transform = CGAffineTransformRotate(CGAffineTransformIdentity,(CGFloat)[self getAngleOfRotation]);
+        
+        CGFloat deltaX = ABS(cell.center.x - _pointCurrentCell.x);
+        BOOL isLeft = NO;
+        BOOL isRight = NO;
+        
+        if (deltaX > minimumXPanDistanceToSwipe) {
+            if ([self getAngleOfRotation] > 0) {
+                isRight = YES;
+            } else {
+                isLeft = YES;
+            }
+        }
+        [self updateDraggingLeft:isLeft Right:isRight];
+    }
+}
+
+- (void)finishedDraggingCell:(UICollectionViewCell *)cell {
+    
+    CGFloat deltaX = ABS(cell.center.x - _pointCurrentCell.x);
+    BOOL isLeft = NO;
+    BOOL isRight = NO;
+    
+    if (deltaX < minimumXPanDistanceToSwipe) {
+        
+        if (cell) {
+            
+            [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                __weak typeof(&*self) self_weak_ = self;
+                cell.center = self_weak_.layout.pointDefaultCell;
+                cell.transform = CGAffineTransformIdentity;
+            } completion:nil];
+            
+            [self updateDraggingLeft:isLeft Right:isRight];
+        }
+        
+    } else {
+        
+        if (_currentDraggedCellPath.item == _indexItem) {
+            [self setIndexItem:_indexItem +1];
+        } else {
+            [self setIndexItem:_indexItem - 1];
+        }
+        _pointCurrentCell = CGPointZero;
+        _currentDraggedCellPath = nil;
+        
+        if ([self getAngleOfRotation] > 0) {
+            isRight = YES;
+        } else {
+            isLeft = YES;
+        }
+        
+        [self didFinishDraggingLeft:isLeft Right:isRight];
+    
+    }
+}
+
+- (double)getAngleOfRotation {
+    double result = 0;
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:_currentDraggedCellPath];
+    if (cell) {
+        CGFloat pointYCollectionView = self.collectionView.frame.size.height + self.layout.itemSize.height;
+        CGFloat angle = ((cell.center.x -  self.collectionView.bounds.size.width/2)/(pointYCollectionView - cell.center.y));
+        result = atan(angle);
+    }
+    
+    return result;
+}
+
+
+#pragma mark - UpdateButonLeftRight
+
+- (void)didFinishDraggingLeft:(BOOL)isLeft Right:(BOOL)isRight {
     _btnLeft.transform = CGAffineTransformMakeScale(1,1);
     _btnRight.transform = CGAffineTransformMakeScale(1,1);
 }
 
-- (void)explorationStackViewLayout:(UICollectionViewLayout *)collectionViewLayout updateDraggingLeft:(BOOL)isLeft Right:(BOOL)isRight {
+- (void)updateDraggingLeft:(BOOL)isLeft Right:(BOOL)isRight {
     if (isLeft) {
         _btnLeft.transform = CGAffineTransformMakeScale(1.6, 1.6);
     } else {
@@ -108,28 +348,21 @@
     }
 }
 
-- (void)explorationStackViewLayout:(UICollectionViewLayout *)collectionViewLayout cellWillFullScreen:(NSIndexPath *)indexPath {
-    
-    _indexCell = indexPath;
+- (void)selectedModeFullScreen:(NSIndexPath *)indexPath {
     
     MangaInfoCollectionView *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:NSStringFromClass([MangaInfoCollectionView class])];
+    
+    _interactiveTransition = [[ExplorationStackInteractiveTransitioning alloc] init];
+    [_interactiveTransition attachToViewController:self withView:vc.view presentViewController:vc];
+    vc.interactiveTransition = _interactiveTransition;
     vc.transitioningDelegate = self;
     vc.delegate = self;
     vc.numberOfRow = 5;
     [vc.collectionView setScrollEnabled:YES];
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 
-
-- (void)mangaInfoCollectionView:(MangaInfoCollectionView *)vc didSmallScreen:(NSIndexPath *)indexPath {
-    
-}
-
-- (CGRect)getFrameCellAtIndexPath:(NSIndexPath*)indexPath {
-    UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
-    
-    return attributes.frame;
-}
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
@@ -155,12 +388,19 @@
     return _transition;
 }
 
-
 - (id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator {
-    ExplorationStackInteractiveTransitioning * transittion = [[ExplorationStackInteractiveTransitioning alloc] init];
-    [transittion wireToViewController:self];
     
-    return transittion;
+    self.interactiveTransition.interactionInProgress = YES;
+////    self.interactiveTransition.isPresent = NO;
+    
+    return _interactiveTransition;
+}
+
+
+- (CGRect)getFrameCellAtIndexPath:(NSIndexPath*)indexPath {
+    UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];
+    
+    return attributes.frame;
 }
 
 

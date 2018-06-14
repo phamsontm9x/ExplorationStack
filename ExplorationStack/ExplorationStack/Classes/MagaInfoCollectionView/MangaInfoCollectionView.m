@@ -10,10 +10,11 @@
 #import "ExplorationStackViewTransition.h"
 #import "ExplorationStackCollectionViewCell.h"
 
-@interface MangaInfoCollectionView () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
+
+
+@interface MangaInfoCollectionView () <UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSMutableArray *arrColor;
-@property (nonatomic) BOOL isTopScrollView;
 
 @end
 
@@ -22,21 +23,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _isTopScrollView = NO;
     self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     [self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    [self.collectionView setScrollEnabled:YES];
 }
-
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -64,19 +61,22 @@
 
 #pragma mark UIScrollViewDelegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView.contentOffset.y < -scrollView.adjustedContentInset.top && _isTopScrollView) {
-        [self.collectionView setScrollEnabled:NO];
-        [self dismissViewControllerAnimated:YES completion:nil];
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    CGPoint vel = [scrollView.panGestureRecognizer velocityInView:scrollView.panGestureRecognizer.view];
+    
+    if (scrollView.contentOffset.y == -scrollView.adjustedContentInset.top && vel.y > 0) {
+        self.interactiveTransition.interactionInProgress = YES;
+    } else {
+        self.interactiveTransition.interactionInProgress = NO;
     }
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (scrollView.contentOffset.y == -scrollView.adjustedContentInset.top) {
-        _isTopScrollView = YES;
-    } else {
-        _isTopScrollView = NO;
-    }
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+
 }
 
 @end
