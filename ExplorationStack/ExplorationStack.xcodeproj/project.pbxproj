@@ -188,11 +188,11 @@
 		1355DBA220CA248D00ACB6B9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1355DBA420CA249C00ACB6B9 /* AppDelegate */,
 				137ECDA320CE84C40095AF96 /* MagaInfoCollectionView */,
 				135DD36420D0BC5F00504461 /* ExplorationViewController */,
 				13086CCC20CFC07500D988F7 /* NavigationController */,
 				13086CB620CFA69200D988F7 /* ExplorationStackViewTransition */,
-				1355DBA420CA249C00ACB6B9 /* AppDelegate */,
 				1355DBA720CA25E600ACB6B9 /* ExplorationStackViewLayout */,
 			);
 			path = Classes;

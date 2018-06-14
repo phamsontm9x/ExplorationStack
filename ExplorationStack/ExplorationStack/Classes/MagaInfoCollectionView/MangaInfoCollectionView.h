@@ -10,8 +10,9 @@
 
 #import "ExplorationStackInteractiveTransitioning.h"
 
-@class MangaInfoCollectionView;
 
+
+@class MangaInfoCollectionView;
 
 @protocol MangaInfoCollectionViewDelegate <NSObject>
 - (void)mangaInfoCollectionView:(MangaInfoCollectionView *)vc didSmallScreen:(NSIndexPath*)indexPath;
@@ -24,7 +25,6 @@
 
 @property (nonatomic, weak) id<MangaInfoCollectionViewDelegate> delegate;
 @property (nonatomic, strong) ExplorationStackInteractiveTransitioning *interactiveTransition;
-@property (nonatomic) UIColor *color;
 @property (nonatomic) NSInteger numberOfRow;;
 
 @end

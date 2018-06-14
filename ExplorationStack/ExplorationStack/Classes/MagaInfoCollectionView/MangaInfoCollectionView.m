@@ -35,6 +35,7 @@
     [super viewDidAppear:animated];
 }
 
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -65,8 +66,10 @@
     CGPoint vel = [scrollView.panGestureRecognizer velocityInView:scrollView.panGestureRecognizer.view];
     
     if (scrollView.contentOffset.y == -scrollView.adjustedContentInset.top && vel.y > 0) {
+        // Enable InteractiveTransitioning
         self.interactiveTransition.interactionInProgress = YES;
     } else {
+        // Disable InteractiveTransitioning
         self.interactiveTransition.interactionInProgress = NO;
     }
 }

@@ -107,7 +107,6 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     return 1;
 }
 
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return 15;
 }
@@ -195,8 +194,7 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
             }
         }
             break;
-        case UISwipeGestureRecognizerDirectionDown:
-        {
+        case UISwipeGestureRecognizerDirectionDown: {
             
         }
             break;
@@ -254,13 +252,6 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     
     CGFloat newCenterX = _pointCurrentCell.x + touchCoordinate.x;
     CGFloat newCenterY = _pointCurrentCell.y + touchCoordinate.y;
-    
-//    if (newCenterY < 150) {
-//        self.interactiveTransitionPresent.interactionInProgress = YES;
-//    } else {
-//        self.interactiveTransitionPresent.interactionInProgress = NO;
-//        [self.interactiveTransitionPresent cancelInteractiveTransition];
-//    }
     
     if (cell) {
         cell.center = CGPointMake(newCenterX, newCenterY);
@@ -389,7 +380,6 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     _transition.snapShot.contentMode = UIViewContentModeScaleAspectFit;
     return _transition;
 }
-
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     
