@@ -29,6 +29,7 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 // Transition
 @property (nonatomic, strong) ExplorationStackViewTransition *transition;
 @property (nonatomic, strong) ExplorationStackInteractiveTransitioning *interactiveTransition;
+@property (nonatomic, strong) ExplorationStackInteractiveTransitioning *interactiveTransitionPresent;
 
 // Gesture
 @property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
@@ -70,7 +71,8 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 }
 
 - (void)initFakeData {
-    _indexCell  = 0;
+    _indexItem  = 0;
+    _indexCell = [NSIndexPath indexPathForItem:_indexItem inSection:0];
     _fullScreen = NO;
     _arrColor = [[NSMutableArray alloc] init];
     [_arrColor addObject:[UIColor grayColor]];
@@ -87,7 +89,10 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 }
 
 - (void)initInteractiveTransition {
-   
+    _interactiveTransitionPresent = [[ExplorationStackInteractiveTransitioning alloc] init];
+    _interactiveTransitionPresent.isPresent = YES;
+    _interactiveTransitionPresent.interactionInProgress = NO;
+    [_interactiveTransitionPresent attachToViewController:self withView:self.view presentViewController:nil];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -163,6 +168,7 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     
     _indexItem = indexItem;
     _layout.indexItem = _indexItem;
+    _indexCell = [NSIndexPath indexPathForRow:_indexItem inSection:0];
     
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:_currentDraggedCellPath];
     if (!cell) {
@@ -249,11 +255,12 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     CGFloat newCenterX = _pointCurrentCell.x + touchCoordinate.x;
     CGFloat newCenterY = _pointCurrentCell.y + touchCoordinate.y;
     
-    if (newCenterY < 150) {
-        self.interactiveTransition.interactionInProgress = YES;
-    } else {
-        self.interactiveTransition.interactionInProgress = NO;
-    }
+//    if (newCenterY < 150) {
+//        self.interactiveTransitionPresent.interactionInProgress = YES;
+//    } else {
+//        self.interactiveTransitionPresent.interactionInProgress = NO;
+//        [self.interactiveTransitionPresent cancelInteractiveTransition];
+//    }
     
     if (cell) {
         cell.center = CGPointMake(newCenterX, newCenterY);
@@ -354,6 +361,7 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     
     _interactiveTransition = [[ExplorationStackInteractiveTransitioning alloc] init];
     [_interactiveTransition attachToViewController:self withView:vc.view presentViewController:vc];
+    _interactiveTransitionPresent.isPresent = NO;
     vc.interactiveTransition = _interactiveTransition;
     vc.transitioningDelegate = self;
     vc.delegate = self;
@@ -363,6 +371,12 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
     [self presentViewController:vc animated:YES completion:nil];
 }
 
+
+#pragma mark - MangaInfoCollectionViewDelegate
+
+- (void)mangaInfoCollectionView:(MangaInfoCollectionView *)vc didSmallScreen:(NSIndexPath*)indexPath {
+    
+}
 
 #pragma mark - UIViewControllerTransitioningDelegate
 
@@ -391,11 +405,16 @@ __const NSInteger minimumXPanDistanceToSwipe = 100;
 - (id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator {
     
     self.interactiveTransition.interactionInProgress = YES;
-////    self.interactiveTransition.isPresent = NO;
-    
-    return _interactiveTransition;
+
+    return self.interactiveTransition;
 }
 
+- (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id <UIViewControllerAnimatedTransitioning>)animator {
+    
+    self.interactiveTransitionPresent.interactionInProgress = YES;
+    
+    return self.interactiveTransitionPresent;
+}
 
 - (CGRect)getFrameCellAtIndexPath:(NSIndexPath*)indexPath {
     UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:indexPath];

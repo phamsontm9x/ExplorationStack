@@ -16,7 +16,7 @@
 @property (nonatomic) UIPanGestureRecognizer *panGesture;
 @property (nonatomic) UIPanGestureRecognizer *panGesturePresent;
 @property (nonatomic) BOOL interactionInProgress;
-//@property (nonatomic) BOOL isPresent;
+@property (nonatomic) BOOL isPresent;
 
 - (void)attachToViewController:(UIViewController *)viewController withView:(UIView *)view presentViewController:(UICollectionViewController *)presentViewController;
 - (void)handleGesture:(UIPanGestureRecognizer*)gestureRecognizer;

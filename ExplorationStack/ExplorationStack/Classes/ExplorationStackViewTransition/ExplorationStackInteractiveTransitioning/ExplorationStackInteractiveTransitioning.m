@@ -26,7 +26,13 @@
     self.presentViewController = presentViewController;
     self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     self.panGesture.delegate = self;
-    [self.presentViewController.collectionView addGestureRecognizer:self.panGesture];
+    
+    if (_isPresent) {
+        [view addGestureRecognizer:self.panGesture];
+    } else {
+        [self.presentViewController.collectionView addGestureRecognizer:self.panGesture];
+    }
+    
 }
 
 - (void)setInteractionInProgress:(BOOL)interactionInProgress {
@@ -45,8 +51,14 @@
         switch (gestureRecognizer.state) {
                 
             case UIGestureRecognizerStateBegan: {
-                [_presentViewController dismissViewControllerAnimated:YES completion:nil];
-                [_presentViewController.collectionView.panGestureRecognizer setEnabled:NO];
+                
+                if (_isPresent) {
+                    
+                } else {
+                    [_presentViewController dismissViewControllerAnimated:YES completion:nil];
+                    [_presentViewController.collectionView.panGestureRecognizer setEnabled:NO];
+                }
+                
             }
                 break;
                 
@@ -73,7 +85,12 @@
             case UIGestureRecognizerStateCancelled:
 
                 if (self.interactionInProgress) {
-                    [_presentViewController.collectionView.panGestureRecognizer setEnabled:YES];
+                    if (_isPresent) {
+                        
+                    } else {
+                        [_presentViewController.collectionView.panGestureRecognizer setEnabled:YES];
+                    }
+                    
                     self.interactionInProgress = NO;
                     if (!_shouldCompleteTransition || gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
                         [self cancelInteractiveTransition];
